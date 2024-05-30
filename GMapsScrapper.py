@@ -16,7 +16,7 @@ def setup_driver():
 def extract_info_from_place_id(driver, place_id):
     url = f"https://www.google.com/maps/place/?q=place_id:{place_id}"
     driver.get(url)
-    time.sleep(5)  # Adjust depending on internet conection
+    #time.sleep(3)  # Adjust depending on internet conection
 
     info = {}
     
