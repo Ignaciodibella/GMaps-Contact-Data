@@ -42,14 +42,20 @@ def extract_info_from_place_id(driver, place_id):
 
     return info
 
-# List of places
-place_ids = ['ChIJc_j6NX6WYoYRxRM7frM8HlI']
+# CSV with place_ids to process
+places_id = pd.read_csv('places_id.csv')
 
-# Start Scrapping
+final_data = pd.DataFrame(columns=['place_id', 'info'])
+
+# Start scraping
 driver = setup_driver()
 
-for place_id in place_ids:
-    info = extract_info_from_place_id(driver, place_id)
-    print(f"Info for {place_id}: {info}")
+rows = [{'place_id':place, 'info':extract_info_from_place_id(driver, place)} for place in places_id['Place Id']]
+final_data = pd.concat([final_data, pd.DataFrame(rows)], ignore_index = True)
+
+# Export to CSV
+final_data.to_csv('places_with_contact_data.csv', index=False)
+
+print("Data has been exported to output.csv")
 
 driver.quit()
